@@ -4,7 +4,12 @@ from loguru import logger
 
 
 class Classifier:
-    DIMENSIONS = ["AFF", "CULT", "ECON", "GOV"]
+    AFF = "AFF"
+    CULT = "CULT"
+    ECON = "ECON"
+    GOV = "GOV"
+
+    DIMENSIONS = [AFF, CULT, ECON, GOV]
 
     def __init__(self, dimensions: List[str] = None):
         for dimension in dimensions:
