@@ -4,7 +4,7 @@ from typing import List, Iterable, Union
 from loguru import logger
 from setfit import SetFitModel
 
-from config import (
+from .config import (
     DIMENSIONS,
     DIM2MODEL_PATH,
     WITH_ATTRIBUTES,

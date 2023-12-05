@@ -23,3 +23,13 @@ pip install NewsFrames
 ```python
 
 ```
+
+
+
+## Upload new version
+
+```bash
+python -m pip install build twine
+python -m build
+python -m twine upload dist/*
+```
