@@ -3,14 +3,19 @@ from typing import List, Iterable, Union
 from loguru import logger
 from setfit import SetFitModel
 
-from src.NewsFrames.config import DIMENSIONS, DIM2MODEL_PATH, WITH_ATTRIBUTES, \
-    WITHOUT_ATTRIBUTES
+from src.NewsFrames.config import (
+    DIMENSIONS,
+    DIM2MODEL_PATH,
+    WITH_ATTRIBUTES,
+    WITHOUT_ATTRIBUTES,
+)
 
 
 class Classifier:
     def __init__(
         self, dimensions: List[str] = DIMENSIONS, attribute_mode: str = WITH_ATTRIBUTES
     ):
+        logger.debug("Creating classifier with dimensions {}", dimensions)
         for dimension in dimensions:
             assert dimension in DIMENSIONS, f"Dimension {dimension} not in {DIMENSIONS}"
         assert attribute_mode in (WITH_ATTRIBUTES, WITHOUT_ATTRIBUTES)
@@ -24,10 +29,10 @@ class Classifier:
         dim2model = {}
         for dimension in self.dimensions:
             model_path = DIM2MODEL_PATH[(dimension, self.attribute_mode)]
-            logger.info("Loading model for {} from {}", dimension, model_path)
+            logger.debug("Loading model for {} from {}", dimension, model_path)
             model = SetFitModel.from_pretrained(model_path)
             dim2model[dimension] = model
-            logger.info("Loaded model for {} from {}", dimension, model_path)
+            logger.debug("Loaded model for {} from {}", dimension, model_path)
 
         return dim2model
 
@@ -44,12 +49,26 @@ class Classifier:
                 sentence, str
             ), f"Expected sentences to be str, got {type(sentence)} for {i}-th item"
 
-        return ["hi"] * len(sentences)
+        dim2predictions = {}
+        for dimension, model in self.dim2model.items():
+            logger.debug(
+                "Predicting for dimension {} (num predictions = {})",
+                dimension,
+                len(sentences),
+            )
+            predictions = model.predict(sentences)
+            assert predictions.shape == (len(sentences),)
+            predictions = predictions.tolist()
+
+            dim2predictions[dimension] = predictions
+            logger.debug("Predictions for dimension {}: {}", dimension, predictions)
+
+        return dim2predictions
 
 
 def main():
     classifier = Classifier()
-    print(classifier.predict("hi"))
+    print(classifier.predict(["conserve the environment", "power to the people!"]))
 
 
 if __name__ == "__main__":

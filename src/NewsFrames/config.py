@@ -26,3 +26,46 @@ DIM2MODEL_PATH = {
     (ECON, WITHOUT_ATTRIBUTES): "fhamborg/newsframes-econ-bin",
     (GOV, WITHOUT_ATTRIBUTES): "fhamborg/newsframes-gov-bin",
 }
+
+DIM2ID2LABEL = {
+    (AFF, WITH_ATTRIBUTES): {
+        0: "AFF_NEG",
+        1: "AFF_NOT",
+        2: "AFF_POS",
+        3: "AFF_RAT",
+    },
+    (CULT, WITH_ATTRIBUTES): {
+        0: "CULT_GAL",
+        1: "CULT_NEU",
+        2: "CULT_NOT",
+        3: "CULT_TAN",
+    },
+    (ECON, WITH_ATTRIBUTES): {
+        0: "ECON_LEFT",
+        1: "ECON_NEU",
+        2: "ECON_NOT",
+        3: "ECON_RIGHT",
+    },
+    (GOV, WITH_ATTRIBUTES): {
+        0: "GOV_NOT",
+        1: "GOV_PLU",
+        2: "GOV_POP",
+        3: "GOV_TEC",
+    },
+    (AFF, WITHOUT_ATTRIBUTES): {
+        0: "AFF_no",
+        1: "AFF_yes",
+    },
+    (CULT, WITHOUT_ATTRIBUTES): {
+        0: "CULT_no",
+        1: "CULT_yes",
+    },
+    (ECON, WITHOUT_ATTRIBUTES): {
+        0: "ECON_no",
+        1: "ECON_yes",
+    },
+    (GOV, WITHOUT_ATTRIBUTES): {
+        0: "GOV_no",
+        1: "GOV_yes",
+    },
+}
