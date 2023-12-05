@@ -5,10 +5,10 @@ topics.
 
 ## Setup
 
-Create python environment, for example with conda:
+Create python environment, for example with conda. Python 3.8 or later is supported.
 
 ```bash
-conda create --yes -n NewsFrames python=3.9
+conda create --yes -n NewsFrames python=3.8
 conda activate NewsFrames
 ```
 

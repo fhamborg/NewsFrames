@@ -1,1 +1,1 @@
-from src.NewsFrames.classifier import Classifier
+from classifier import Classifier
