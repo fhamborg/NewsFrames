@@ -15,7 +15,10 @@ from .config import (
 
 class Classifier:
     def __init__(
-        self, dimensions: List[str] = DIMENSIONS, attribute_mode: str = WITH_ATTRIBUTES
+        self,
+        dimensions: List[str] = DIMENSIONS,
+        attribute_mode: str = WITH_ATTRIBUTES,
+        increment_by_one: bool = False,
     ):
         logger.debug("Creating classifier with dimensions {}", dimensions)
         for dimension in dimensions:
@@ -24,6 +27,7 @@ class Classifier:
         self.dimensions = dimensions
         self.attribute_mode = attribute_mode
         self.dim2model = self.load_models()
+        self.increment_by_one = increment_by_one
 
         logger.info("Created classifier with dimensions {}", self.dimensions)
 
@@ -61,6 +65,8 @@ class Classifier:
             predictions = model.predict(sentences)
             assert predictions.shape == (len(sentences),)
             predictions = predictions.tolist()
+            if self.increment_by_one:
+                predictions = [p + 1 for p in predictions]
 
             dim2predictions[dimension] = predictions
             logger.debug("Predictions for dimension {}: {}", dimension, predictions)
@@ -96,14 +102,24 @@ class Classifier:
 
     def get_label(self, dimension: str, label_id: int):
         assert dimension in self.dimensions
+        if self.increment_by_one:
+            label_id -= 1
         return DIM2ID2LABEL[(dimension, self.attribute_mode)][label_id]
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     classifier = Classifier(attribute_mode="withoutattributes")
-    results = classifier.predict(["Executives at the British software company Autonomy mischaracterised revenues from clients including Tottenham Hotspur, the Serious Fraud Office and the BBC to inflate software sales figures before a disastrous £8bn acquisition by the US firm Hewlett-Packard, London’s high court has heard."])
+    results = classifier.predict(
+        [
+            "Executives at the British software company Autonomy mischaracterised revenues from clients including Tottenham Hotspur, the Serious Fraud Office and the BBC to inflate software sales figures before a disastrous £8bn acquisition by the US firm Hewlett-Packard, London’s high court has heard."
+        ]
+    )
     print(results)
 
     classifier = Classifier(attribute_mode="withattributes")
-    results = classifier.predict(["Executives at the British software company Autonomy mischaracterised revenues from clients including Tottenham Hotspur, the Serious Fraud Office and the BBC to inflate software sales figures before a disastrous £8bn acquisition by the US firm Hewlett-Packard, London’s high court has heard."])
+    results = classifier.predict(
+        [
+            "Executives at the British software company Autonomy mischaracterised revenues from clients including Tottenham Hotspur, the Serious Fraud Office and the BBC to inflate software sales figures before a disastrous £8bn acquisition by the US firm Hewlett-Packard, London’s high court has heard."
+        ]
+    )
     print(results)
