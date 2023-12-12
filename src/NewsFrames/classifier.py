@@ -97,3 +97,13 @@ class Classifier:
     def get_label(self, dimension: str, label_id: int):
         assert dimension in self.dimensions
         return DIM2ID2LABEL[(dimension, self.attribute_mode)][label_id]
+
+
+if __name__ == '__main__':
+    classifier = Classifier(attribute_mode="withoutattributes")
+    results = classifier.predict(["Executives at the British software company Autonomy mischaracterised revenues from clients including Tottenham Hotspur, the Serious Fraud Office and the BBC to inflate software sales figures before a disastrous £8bn acquisition by the US firm Hewlett-Packard, London’s high court has heard."])
+    print(results)
+
+    classifier = Classifier(attribute_mode="withattributes")
+    results = classifier.predict(["Executives at the British software company Autonomy mischaracterised revenues from clients including Tottenham Hotspur, the Serious Fraud Office and the BBC to inflate software sales figures before a disastrous £8bn acquisition by the US firm Hewlett-Packard, London’s high court has heard."])
+    print(results)
